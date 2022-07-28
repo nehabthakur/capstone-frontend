@@ -4,16 +4,16 @@ import authHeader from './auth-header';
 const API_URL = 'http://localhost:5000/';
 
 class UserService {
-  getStudentBoard() {
-    return axios.get(API_URL + 'student', { headers: authHeader() });
+  getStudentBoard(email: string) {
+    return axios.get(API_URL + 'student/' + email, { headers: authHeader() });
   }
 
-  getSupervisorBoard() {
-    return axios.get(API_URL + 'supervisor', { headers: authHeader() });
+  getSupervisorBoard(email: string) {
+    return axios.get(API_URL + 'supervisor/' + email, { headers: authHeader() });
   }
 
-  getProjectCoordinatorBoard() {
-    return axios.get(API_URL + 'project_coordinator', { headers: authHeader() });
+  getProjectCoordinatorBoard(email: string) {
+    return axios.get(API_URL + 'project_coordinator/' + email, { headers: authHeader() });
   }
 }
 
