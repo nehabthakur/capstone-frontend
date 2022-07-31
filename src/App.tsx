@@ -7,13 +7,13 @@ import AuthService from "./services/auth.service";
 import IUser from './types/user.type';
 
 import Login from "./components/login.component";
-import Register from "./components/register.component";
 import Profile from "./components/profile.component";
 
 import EventBus from "./common/EventBus";
-import BoardProjectCoordinator from "./components/board-project-coordinator.component";
-import BoardSupervisor from "./components/board-supervisor.component";
-import BoardStudent from "./components/board-student.component";
+import StudentOverview from "./components/student-overview.component";
+import StudentProject from "./components/student-project-info.component";
+import SupervisorsList from "./components/supervisor-list.component";
+import StudentShortlist from "./components/student-shortlist.component";
 
 type Props = {};
 
@@ -94,8 +94,29 @@ class App extends Component<Props, State> {
 
             {showStudentBoard && (
               <li className="nav-item">
-                <Link to={"/student"} className="nav-link">
-                  Student Board
+                <Link to={"/student/overview"} className="nav-link">
+                  Overview
+                </Link>
+              </li>
+            )}
+            {showStudentBoard && (
+              <li className="nav-item">
+                <Link to={"/student/project"} className="nav-link">
+                  Project Info
+                </Link>
+              </li>
+            )}
+            {showStudentBoard && (
+              <li className="nav-item">
+                <Link to={"/supervisors"} className="nav-link">
+                  Supervisors
+                </Link>
+              </li>
+            )}
+            {showStudentBoard && (
+              <li className="nav-item">
+                <Link to={"/student/shortlist"} className="nav-link">
+                  Shortlist Supervisors
                 </Link>
               </li>
             )}
@@ -121,12 +142,6 @@ class App extends Component<Props, State> {
                   Login
                 </Link>
               </li>
-
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
             </div>
           )}
         </nav>
@@ -135,10 +150,11 @@ class App extends Component<Props, State> {
           <Switch>
             <Route exact path={["/", "/profile"]} component={Profile} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/student" component={BoardStudent} />
-            <Route exact path="/supervisor" component={BoardSupervisor} />
-            <Route exact path="/project_coordinator" component={BoardProjectCoordinator} />
+            <Route exact path="/student/overview" component={StudentOverview} />
+            <Route exact path="/student/project" component={StudentProject} />
+            <Route exact path="/supervisors" component={SupervisorsList} />
+            <Route exact path="/student/shortlist" component={StudentShortlist} />
+            {/*<Route exact path="/student/project_proposal" component={StudentProjectProposal} />*/}
           </Switch>
         </div>
 

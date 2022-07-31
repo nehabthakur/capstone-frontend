@@ -22,14 +22,6 @@ class AuthService {
     sessionStorage.removeItem("user");
   }
 
-  register(email: string, password: string, name: string) {
-    return axios.post(API_URL + "sign-up", {
-      email,
-      password,
-      name
-    });
-  }
-
   getCurrentUser() {
     const userStr = sessionStorage.getItem("user");
     if (!userStr) return null;

@@ -6,5 +6,6 @@ export default interface IStudent {
     email?: string | null,
     name?: string,
     supervisor?: IUser | null,
+    secondExaminer?: IUser | null,
     project?: IProject | null
 }
