@@ -11,7 +11,7 @@ type Props = {};
 
 type State = {
     redirect: string | null, userReady: boolean, currentUser: IUser & { token: string },
-    supervisors: Array<ISupervisor> | null,
+    supervisors: Array<ISupervisor> | null, expandedRows: Array<number>
 }
 
 export default class SupervisorsList extends Component<Props, State> {
@@ -19,7 +19,7 @@ export default class SupervisorsList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            redirect: null, userReady: false, currentUser: {token: ""}, supervisors: null
+            redirect: null, userReady: false, currentUser: {token: ""}, supervisors: null, expandedRows: []
         };
     }
 
@@ -38,6 +38,63 @@ export default class SupervisorsList extends Component<Props, State> {
         this.setState({currentUser: currentUser, userReady: true})
     }
 
+
+
+    handleRowClick = (id: number) => {
+        const currentExpandedRows = this.state.expandedRows;
+        const isRowCurrentlyExpanded = currentExpandedRows.includes(id);
+
+        const newExpandedRows = isRowCurrentlyExpanded ? currentExpandedRows.filter(row => row !== id) : currentExpandedRows.concat(id);
+
+        this.setState({expandedRows: newExpandedRows});
+    }
+
+    renderItem = (supervisor: ISupervisor, index: number) => {
+        const clickCallback = () => this.handleRowClick(index);
+        const itemRows = [
+            <tr key={index} onClick={clickCallback}>
+                <td>{supervisor.name}</td>
+                <td>{supervisor.areas}</td>
+                <td>{(supervisor.slots ? supervisor.slots : 0) - (supervisor.students ? supervisor.students.length : 0)}</td>
+            </tr>
+        ];
+
+        if (this.state.expandedRows.includes(index)) {
+            itemRows.push(
+                <div>
+                    <p>
+                        <strong>Email:</strong>{" "}
+                        {supervisor.email}
+                    </p>
+                    <p>
+                        <strong>General Info:</strong>{" "}
+                        {supervisor.info}
+                    </p>
+                    <p>
+                        <h5>Projects:</h5>{" "}
+                        {/* Add a new line */}
+                        {supervisor.projects?.map((project, index) => {
+                            return (
+                                <div>
+                                    <p>
+                                        <strong>Project Title:</strong>{" "}
+                                        {project.title}
+                                    </p>
+                                    <p>
+                                        <strong>Project Description:</strong>{" "}
+                                        {project.description}
+                                    </p>
+                                </div>
+                            )
+                        })}
+                    </p>
+                </div>
+            )
+        }
+
+        return itemRows;
+    }
+
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect}/>
@@ -50,54 +107,32 @@ export default class SupervisorsList extends Component<Props, State> {
             return <div>Unauthorized</div>
         }
 
-        return (<div className="container">
-            {(this.state.userReady && this.state.supervisors) ? <div>
-                <p>
-                    {this.state.supervisors.map((supervisor, idx) => {
-                        return (
-                            <div key={idx}>
-                                <p>
-                                    <strong>Name:</strong>{" "}
-                                    {supervisor.name}
-                                </p>
-                                <p>
-                                    <strong>Email:</strong>{" "}
-                                    {supervisor.email}
-                                </p>
-                                <p>
-                                    <strong>Areas of Interest:</strong>{" "}
-                                    {supervisor.areas}
-                                </p>
-                                <p>
-                                    <strong>Total slots:</strong>{" "}
-                                    {supervisor.slots}
-                                </p>
-                                <p>
-                                    <strong>Slots taken:</strong>{" "}
-                                    {supervisor.students?.length}
-                                </p>
-                                <p>
-                                    <strong>Projects:</strong>{" "}
-                                    {supervisor.projects?.map((project, idx) => {
-                                        return (
-                                            <div key={idx}>
-                                                <p>
-                                                    <strong>Project title:</strong>{" "}
-                                                    {project.title}
-                                                </p>
-                                                <p>
-                                                    <strong>Project description:</strong>{" "}
-                                                    {project.description}
-                                                </p>
-                                            </div>
-                                        )
-                                    })}
-                                </p>
-                            </div>
-                        )
-                    })}
-                </p>
-            </div> : null}
-        </div>);
+        // @ts-ignore
+        let allSupervisors = [];
+
+        this.state.supervisors?.forEach((supervisor, index) => {
+            const itemRows = this.renderItem(supervisor, index);
+            // @ts-ignore
+            allSupervisors = allSupervisors.concat(itemRows);
+        });
+
+        return (
+            <div>
+                <h1>Supervisors</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Areas of Interest</th>
+                            <th>Slots Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/*// @ts-ignore*/}
+                        {allSupervisors}
+                    </tbody>
+                </table>
+            </div>
+        );
     }
 }

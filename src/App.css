@@ -76,3 +76,18 @@ label {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+table {
+  border: 1px solid;
+  width: 100%;
+}
+
+th {
+  border: 1px solid;
+  text-align: center;
+}
+
+td {
+  border: 1px solid;
+  text-align: center;
+}
