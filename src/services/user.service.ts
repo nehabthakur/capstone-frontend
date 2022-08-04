@@ -22,8 +22,28 @@ class UserService {
         return axios.get(API_URL + 'supervisor/all', {headers: authHeader()});
     }
 
-    getSupervisorBoard(email: string) {
-        return axios.get(API_URL + 'supervisor/' + email, {headers: authHeader()});
+    getSupervisorOverview() {
+        return axios.get(API_URL + 'supervisor/overview' , {headers: authHeader()});
+    }
+
+    postStudentInfo(formData: FormData) {
+        return axios.post(API_URL + 'student/info', formData, {headers: authHeader()});
+    }
+
+    postSupervisorInfo(formData: FormData) {
+        return axios.post(API_URL + 'supervisor/info', formData, {headers: authHeader()});
+    }
+
+    postSecondaryExaminerInfo(formData: FormData) {
+        return axios.post(API_URL + 'secondary_examiner/info', formData, {headers: authHeader()});
+    }
+
+    updateStudentProjectInfo(formValue: {title: string, description: string}) {
+        return axios.post(API_URL + 'student/project_info', formValue, {headers: authHeader()});
+    }
+
+    updateSupervisorProjectInfo(formValue: {areas: string, info: string, projects: {title: string, description: string}[]}) {
+        return axios.post(API_URL + 'supervisor/project_info', formValue, {headers: authHeader()});
     }
 
     getProjectCoordinatorBoard(email: string) {

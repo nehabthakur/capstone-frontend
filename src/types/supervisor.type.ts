@@ -6,8 +6,8 @@ export default interface ISupervisor {
     email?: string | null,
     name?: string | null,
     info?: string | null,
-    areas?: Array<string> | null,
+    areas?: string | null,
     students?: Array<IStudent> | null,
     projects?: Array<IProject> | null,
-    slots?: bigint | null
+    slots?: number | null
 }

@@ -1,4 +1,4 @@
 export default interface IProject {
-    name?: string,
-    description?: string,
+    title?: string | null,
+    description?: string | null,
 }

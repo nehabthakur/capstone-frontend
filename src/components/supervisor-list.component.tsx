@@ -4,11 +4,14 @@ import AuthService from "../services/auth.service";
 import IUser from "../types/user.type";
 import UserService from "../services/user.service";
 import ISupervisor from "../types/supervisor.type";
+import React from "react";
+
 
 type Props = {};
 
 type State = {
-    redirect: string | null, userReady: boolean, currentUser: IUser & { token: string }, supervisors: Array<ISupervisor> | null,
+    redirect: string | null, userReady: boolean, currentUser: IUser & { token: string },
+    supervisors: Array<ISupervisor> | null,
 }
 
 export default class SupervisorsList extends Component<Props, State> {
@@ -63,9 +66,7 @@ export default class SupervisorsList extends Component<Props, State> {
                                 </p>
                                 <p>
                                     <strong>Areas of Interest:</strong>{" "}
-                                    {supervisor.areas?.map((area, idx) => {
-                                        return <span key={idx}>{area}</span>
-                                    })}
+                                    {supervisor.areas}
                                 </p>
                                 <p>
                                     <strong>Total slots:</strong>{" "}
@@ -73,13 +74,23 @@ export default class SupervisorsList extends Component<Props, State> {
                                 </p>
                                 <p>
                                     <strong>Slots taken:</strong>{" "}
-                                    {/*  subtract number of slots with size of current studentss  */}
                                     {supervisor.students?.length}
                                 </p>
                                 <p>
                                     <strong>Projects:</strong>{" "}
                                     {supervisor.projects?.map((project, idx) => {
-                                        return <span key={idx}>{project}</span>
+                                        return (
+                                            <div key={idx}>
+                                                <p>
+                                                    <strong>Project title:</strong>{" "}
+                                                    {project.title}
+                                                </p>
+                                                <p>
+                                                    <strong>Project description:</strong>{" "}
+                                                    {project.description}
+                                                </p>
+                                            </div>
+                                        )
                                     })}
                                 </p>
                             </div>

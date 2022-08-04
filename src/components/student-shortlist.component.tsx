@@ -130,6 +130,7 @@ export default class StudentShortlist extends Component<Props, State> {
                   <button
                     type="submit"
                     className="btn btn-primary"
+                    disabled={!this.state.supervisor_1}
                   >
                     Submit
                   </button>

@@ -14,6 +14,8 @@ import StudentOverview from "./components/student-overview.component";
 import StudentProject from "./components/student-project-info.component";
 import SupervisorsList from "./components/supervisor-list.component";
 import StudentShortlist from "./components/student-shortlist.component";
+import SupervisorOverview from "./components/supervisor-overview.component";
+import Admin from "./components/admin.component";
 
 type Props = {};
 
@@ -78,16 +80,32 @@ class App extends Component<Props, State> {
           <div className="navbar-nav mr-auto">
             {showSupervisorBoard && (
               <li className="nav-item">
-                <Link to={"/supervisor"} className="nav-link">
-                  Supervisor Board
+                <Link to={"/supervisor/overview"} className="nav-link">
+                  Overview
+                </Link>
+              </li>
+            )}
+
+            {showSupervisorBoard && (
+              <li className="nav-item">
+                <Link to={"/supervisor/supervisees"} className="nav-link">
+                  Supervisees
+                </Link>
+              </li>
+            )}
+
+            {showSupervisorBoard && (
+              <li className="nav-item">
+                <Link to={"/supervisor/assessments"} className="nav-link">
+                  Assessments
                 </Link>
               </li>
             )}
 
             {showProjectCoordinatorBoard && (
               <li className="nav-item">
-                <Link to={"/head_supervisor"} className="nav-link">
-                  Project Coordinator Board
+                <Link to={"/project_coordinator"} className="nav-link">
+                  Admin
                 </Link>
               </li>
             )}
@@ -154,6 +172,8 @@ class App extends Component<Props, State> {
             <Route exact path="/student/project" component={StudentProject} />
             <Route exact path="/supervisors" component={SupervisorsList} />
             <Route exact path="/student/shortlist" component={StudentShortlist} />
+            <Route exact path="/supervisor/overview" component={SupervisorOverview} />
+            <Route exact path="/project_coordinator" component={Admin} />
             {/*<Route exact path="/student/project_proposal" component={StudentProjectProposal} />*/}
           </Switch>
         </div>
