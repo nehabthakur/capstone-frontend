@@ -17,6 +17,7 @@ import StudentShortlist from "./components/student-shortlist.component";
 import SupervisorOverview from "./components/supervisor-overview.component";
 import Admin from "./components/admin.component";
 import StudentProjectProposal from "./components/student-project-proposal.component";
+import SupervisorSupervisees from "./components/supervisor-supervisees.component";
 
 type Props = {};
 
@@ -183,6 +184,7 @@ class App extends Component<Props, State> {
             <Route exact path="/supervisor/overview" component={SupervisorOverview} />
             <Route exact path="/project_coordinator" component={Admin} />
             <Route exact path="/student/project_proposal" component={StudentProjectProposal} />
+            <Route exact path="/supervisor/supervisees" component={SupervisorSupervisees} />
           </Switch>
         </div>
 

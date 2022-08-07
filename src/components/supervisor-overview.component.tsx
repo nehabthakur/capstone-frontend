@@ -88,7 +88,7 @@ export default class SupervisorOverview extends Component<Props, State> {
                 email: this.state.supervisorInfo.email ? this.state.supervisorInfo.email : "",
                 name: this.state.supervisorInfo.name ? this.state.supervisorInfo.name : "",
                 slots: this.state.supervisorInfo.slots ? this.state.supervisorInfo.slots : 0,
-                slots_available: (this.state.supervisorInfo.slots ? this.state.supervisorInfo.slots : 0) - (this.state.supervisorInfo.projects ? this.state.supervisorInfo.projects.length : 0),
+                slots_available: (this.state.supervisorInfo.slots ? this.state.supervisorInfo.slots : 0) - (this.state.supervisorInfo.students ? this.state.supervisorInfo.students.length : 0),
                 supervisor_id: this.state.supervisorInfo.id ? this.state.supervisorInfo.id : "",
                 areas: this.state.supervisorInfo.areas ? this.state.supervisorInfo.areas : "",
                 info: this.state.supervisorInfo.info ? this.state.supervisorInfo.info : "",

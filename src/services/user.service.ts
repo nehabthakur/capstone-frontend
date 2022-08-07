@@ -54,8 +54,24 @@ class UserService {
         return axios.post(API_URL + 'student/project_proposal', formValue, {headers: authHeader()});
     }
 
-    getSupervisorInfo(email: string) {
+    getSupervisorInfoByEmail(email: string) {
         return axios.get(API_URL + 'supervisor/info/' + email, {headers: authHeader()});
+    }
+
+    getSupervisorInfo() {
+        return axios.get(API_URL + 'supervisor/info', {headers: authHeader()});
+    }
+
+    getSupervisorPendingProposals() {
+        return axios.get(API_URL + 'supervisor/pending_proposals', {headers: authHeader()});
+    }
+
+    updateSupervisorPendingProposal(student_email: string, status: string, comment: string) {
+        return axios.post(API_URL + 'supervisor/pending_proposal', {student_email, status, comment}, {headers: authHeader()});
+    }
+
+    getSupervisorSupervisees() {
+        return axios.get(API_URL + 'supervisor/supervisees', {headers: authHeader()});
     }
 }
 

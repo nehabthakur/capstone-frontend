@@ -55,7 +55,7 @@ export default class StudentProjectProposal extends Component<Props, State> {
                     [r.data.supervisor_1, r.data.supervisor_2, r.data.supervisor_3, r.data.supervisor_4, r.data.supervisor_5]
                         .filter(email => email !== null)
                         .forEach(email => {
-                            UserService.getSupervisorInfo(email)
+                            UserService.getSupervisorInfoByEmail(email)
                                 .then(r => {
                                     this.state.shortlisted_supervisors.push(r.data);
                                     this.setState({shortlisted_supervisors: this.state.shortlisted_supervisors});
@@ -161,6 +161,14 @@ export default class StudentProjectProposal extends Component<Props, State> {
                     </div>
                 </Form>
             </Formik>}
+            {this.state.selected_supervisor && this.state.selected_supervisor !== "noEmail" && <div>
+                <strong>Status:</strong>{" "}
+                {this.state.proposal_forms.get(this.state.selected_supervisor)?.has("status") ? this.state.proposal_forms.get(this.state.selected_supervisor)?.get("status")?.toUpperCase() : "NOT SUBMITTED"}
+                <br/>
+                <strong>Comment:</strong>{" "}
+                <br/>
+                {this.state.proposal_forms.get(this.state.selected_supervisor)?.has("comment") ? this.state.proposal_forms.get(this.state.selected_supervisor)?.get("comment") : "No comment yet"}
+            </div>}
         </div>);
     }
 }
