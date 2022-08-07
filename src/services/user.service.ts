@@ -8,7 +8,7 @@ class UserService {
         return axios.get(API_URL + 'student/overview', {headers: authHeader()});
     }
 
-    postSupervisorShortlist(supervisor_1: string | null | undefined, supervisor_2: string | null | undefined, supervisor_3: string | null | undefined, supervisor_4: string | null | undefined, supervisor_5: string | null | undefined) {
+    postSupervisorShortlist(supervisor_1: string | null, supervisor_2: string | null, supervisor_3: string | null, supervisor_4: string | null, supervisor_5: string | null) {
         return axios.post(API_URL + 'student/shortlist', {
             supervisor_1, supervisor_2, supervisor_3, supervisor_4, supervisor_5
         }, {headers: authHeader()});
@@ -46,8 +46,16 @@ class UserService {
         return axios.post(API_URL + 'supervisor/project_info', formValue, {headers: authHeader()});
     }
 
-    getProjectCoordinatorBoard(email: string) {
-        return axios.get(API_URL + 'project_coordinator/' + email, {headers: authHeader()});
+    getProposalForm(email: string) {
+        return axios.get(API_URL + 'student/project_proposal/' + email, {headers: authHeader()});
+    }
+
+    postProjectProposal(formValue: {supervisor_email: string, title: string, aim: string, rationale: string}) {
+        return axios.post(API_URL + 'student/project_proposal', formValue, {headers: authHeader()});
+    }
+
+    getSupervisorInfo(email: string) {
+        return axios.get(API_URL + 'supervisor/info/' + email, {headers: authHeader()});
     }
 }
 

@@ -38,6 +38,7 @@ export default class StudentProject extends Component<Props, State> {
     }
 
     updateInfo(formValue: {title: string, description: string}) {
+        this.setState({loading: true});
         UserService.updateStudentProjectInfo(formValue).then(
             () => {
                 this.setState({loading: false});

@@ -1,16 +1,17 @@
-import React, {Component, FormEvent} from "react";
+import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import AuthService from "../services/auth.service";
 import IUser from "../types/user.type";
 import UserService from "../services/user.service";
 import ISupervisor from "../types/supervisor.type";
+import { Formik, Field, Form } from "formik";
 
 type Props = {};
 
 type State = {
     redirect: string | null, userReady: boolean, currentUser: IUser & { token: string }, supervisors: Array<ISupervisor> | null,
     supervisor_1: ISupervisor | null, supervisor_2: ISupervisor | null, supervisor_3: ISupervisor | null,
-    supervisor_4: ISupervisor | null, supervisor_5: ISupervisor | null
+    supervisor_4: ISupervisor | null, supervisor_5: ISupervisor | null, loading: boolean
 }
 
 export default class StudentShortlist extends Component<Props, State> {
@@ -20,49 +21,9 @@ export default class StudentShortlist extends Component<Props, State> {
         this.state = {
             redirect: null, userReady: false, currentUser: {token: ""}, supervisors: null,
             supervisor_1: null, supervisor_2: null, supervisor_3: null,
-            supervisor_4: null, supervisor_5: null
+            supervisor_4: null, supervisor_5: null, loading: false,
         };
-
-        this.handleSelectValue = this.handleSelectValue.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
-
-    handleSelectValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const variable = event.target.id;
-        const email = event.target.value;
-
-        const supervisor = this.state.supervisors?.find(supervisor => supervisor.email === email);
-
-        if (variable === "supervisor_1" && supervisor !== undefined) {
-            this.setState({supervisor_1: supervisor});
-        } else if (variable === "supervisor_2" && supervisor !== undefined) {
-            this.setState({supervisor_2: supervisor});
-        } else if (variable === "supervisor_3" && supervisor !== undefined) {
-            this.setState({supervisor_3: supervisor});
-        } else if (variable === "supervisor_4" && supervisor !== undefined) {
-            this.setState({supervisor_4: supervisor});
-        } else if (variable === "supervisor_5" && supervisor !== undefined) {
-            this.setState({supervisor_5: supervisor});
-        }
-    }
-
-    handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        UserService.postSupervisorShortlist(
-            this.state.supervisor_1?.email, this.state.supervisor_2?.email,
-            this.state.supervisor_3?.email, this.state.supervisor_4?.email,
-            this.state.supervisor_5?.email)
-        .then(
-            (response) => {
-                if (response.status === 200) {
-                    alert("Shortlist successfully submitted!");
-                    this.setState({redirect: "/student/shortlist"});
-                } else {
-                    alert("Something went wrong!");
-                }
-            }
-        )
-    };
 
     componentDidMount() {
         const currentUser = AuthService.getCurrentUser();
@@ -85,8 +46,32 @@ export default class StudentShortlist extends Component<Props, State> {
                 });
         }
 
-        this.setState({currentUser: currentUser, userReady: true})
+        this.setState({currentUser: currentUser, userReady: true, loading: false})
     }
+
+    handleFormSubmit = (event: { supervisor_1: any, supervisor_2: any, supervisor_3: any, supervisor_4: any, supervisor_5: any }) => {
+        this.setState({loading: true});
+        UserService.postSupervisorShortlist(
+            event.supervisor_1,
+            event.supervisor_2,
+            event.supervisor_3,
+            event.supervisor_4,
+            event.supervisor_5
+        ).then(
+            (response) => {
+                if (response.status === 200) {
+                    alert("Shortlist successfully submitted!");
+                    this.setState({redirect: "/student/shortlist"});
+                } else {
+                    alert("Something went wrong!");
+                }
+                window.location.reload();
+            }
+        )
+
+        this.setState({loading: false});
+    };
+
 
     render() {
         if (this.state.redirect) {
@@ -100,150 +85,69 @@ export default class StudentShortlist extends Component<Props, State> {
             return <div>Unauthorized</div>
         }
 
-        return (<div className="container">
-            {(this.state.userReady && this.state.supervisors) ?
-            <div>
-                <strong>Please select 5 unique supervisors</strong>
-                <br/>
-                <form onSubmit={this.handleFormSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="supervisor_1">Supervisor 1</label>
-                    <select
-                      // @ts-ignore
-                      value={this.state.supervisor_1?.email}
-                      onChange={this.handleSelectValue}
-                      className="form-control"
-                      id="supervisor_1"
-                    >
-                    {this.state.supervisor_1 ?
-                        // @ts-ignore
-                        <option value={this.state.supervisor_1.email}>{this.state.supervisor_1.name}</option>
-                        : <option value="noEmail">Select a supervisor</option>}
-                        {this.state.supervisors.map(supervisor => {
-                            return (
-                                // @ts-ignore
-                                <option value={supervisor.email}>{supervisor.name}</option>
-                            )
-                        })}
-                    </select>
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={!this.state.supervisor_1}
-                  >
-                    Submit
-                  </button>
-                </form>
-                <form onSubmit={this.handleFormSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="supervisor_2">Supervisor 2</label>
-                    <select
-                      // @ts-ignore
-                      value={this.state.supervisor_2?.email}
-                      onChange={this.handleSelectValue}
-                      className="form-control"
-                      id="supervisor_2"
-                    >
-                      <option value="noEmail">Select a supervisor</option>
-                        {this.state.supervisors.map(supervisor => {
-                            return (
-                                // @ts-ignore
-                                <option value={supervisor.email}>{supervisor.name}</option>
-                            )
-                        })}
-                    </select>
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={this.state.supervisor_2?.email === "noEmail"}
-                  >
-                    Submit
-                  </button>
-                </form>
-                <form onSubmit={this.handleFormSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="supervisor_3">Supervisor 3</label>
-                    <select
-                      // @ts-ignore
-                      value={this.state.supervisor_3?.email}
-                      onChange={this.handleSelectValue}
-                      className="form-control"
-                      id="supervisor_3"
-                    >
-                      <option value="noEmail">Select a supervisor</option>
-                        {this.state.supervisors.map(supervisor => {
-                            return (
-                                // @ts-ignore
-                                <option value={supervisor.email}>{supervisor.name}</option>
-                            )
-                        })}
-                    </select>
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={this.state.supervisor_3?.email === "noEmail"}
-                  >
-                    Submit
-                  </button>
-                </form>
-                <form onSubmit={this.handleFormSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="supervisor_4">Supervisor 4</label>
-                    <select
-                      // @ts-ignore
-                      value={this.state.supervisor_4?.email}
-                      onChange={this.handleSelectValue}
-                      className="form-control"
-                      id="supervisor_4"
-                    >
-                      <option value="noEmail">Select a supervisor</option>
-                        {this.state.supervisors.map(supervisor => {
-                            return (
-                                // @ts-ignore
-                                <option value={supervisor.email}>{supervisor.name}</option>
-                            )
-                        })}
-                    </select>
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={this.state.supervisor_4?.email === "noEmail"}
-                  >
-                    Submit
-                  </button>
-                </form>
-                <form onSubmit={this.handleFormSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="supervisor_5">Supervisor 5</label>
-                    <select
-                      // @ts-ignore
-                      value={this.state.supervisor_5?.email}
-                      onChange={this.handleSelectValue}
-                      className="form-control"
-                      id="supervisor_5"
-                    >
-                      <option value="noEmail">Select a supervisor</option>
-                        {this.state.supervisors.map(supervisor => {
-                            return (
-                                // @ts-ignore
-                                <option value={supervisor.email}>{supervisor.name}</option>
-                            )
-                        })}
-                    </select>
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={this.state.supervisor_5?.email === "noEmail"}
-                  >
-                    Submit
-                  </button>
-                </form>
-            </div> : null}
-        </div>);
+        let initialValues = {
+            supervisor_1: this.state.supervisor_1 ? this.state.supervisor_1 : null,
+            supervisor_2: this.state.supervisor_2 ? this.state.supervisor_2 : null,
+            supervisor_3: this.state.supervisor_3 ? this.state.supervisor_3 : null,
+            supervisor_4: this.state.supervisor_4 ? this.state.supervisor_4 : null,
+            supervisor_5: this.state.supervisor_5 ? this.state.supervisor_5 : null
+        }
+
+        return (
+            <div className="container">
+                {(this.state.userReady && this.state.supervisors) ?
+                    <div>
+                        <h3>Please select 5 unique supervisors</h3>
+                        {/*//@ts-ignore*/}
+                        <Formik enableReinitialize={true} initialValues={initialValues} onSubmit={this.handleFormSubmit}>
+                            <Form>
+                                <label>Supervisor 1</label>
+                                <Field as="select" name="supervisor_1" disabled={!!this.state.supervisor_1}>
+                                    <option value="noEmail">Select a supervisor</option>
+                                    {this.state.supervisors.map((supervisor: ISupervisor) => {
+                                       return <option value={supervisor.email ? supervisor.email : "noEmail"}>{supervisor.name}</option>
+                                    })};
+                                </Field>
+                                <label>Supervisor 2</label>
+                                <Field as="select" name="supervisor_2" disabled={!!this.state.supervisor_2}>
+                                    <option value="noEmail">Select a supervisor</option>
+                                    {this.state.supervisors.map((supervisor: ISupervisor) => {
+                                       return <option value={supervisor.email ? supervisor.email : "noEmail"}>{supervisor.name}</option>
+                                    })};
+                                </Field>
+                                <label>Supervisor 3</label>
+                                <Field as="select" name="supervisor_3" disabled={!!this.state.supervisor_3}>
+                                    <option value="noEmail">Select a supervisor</option>
+                                    {this.state.supervisors.map((supervisor: ISupervisor) => {
+                                       return <option value={supervisor.email ? supervisor.email : "noEmail"}>{supervisor.name}</option>
+                                    })};
+                                </Field>
+                                <label>Supervisor 4</label>
+                                <Field as="select" name="supervisor_4" disabled={!!this.state.supervisor_4}>
+                                    <option value="noEmail">Select a supervisor</option>
+                                    {this.state.supervisors.map((supervisor: ISupervisor) => {
+                                       return <option value={supervisor.email ? supervisor.email : "noEmail"}>{supervisor.name}</option>
+                                    })};
+                                </Field>
+                                <label>Supervisor 5</label>
+                                <Field as="select" name="supervisor_5" disabled={!!this.state.supervisor_5}>
+                                    <option value="noEmail">Select a supervisor</option>
+                                    {this.state.supervisors.map((supervisor: ISupervisor) => {
+                                       return <option value={supervisor.email ? supervisor.email : "noEmail"}>{supervisor.name}</option>
+                                    })};
+                                </Field>
+                                <br/>
+                                <br/>
+                                <button type="submit" className="btn btn-primary" disabled={this.state.loading}>
+                                {this.state.loading && (
+                                    <span className="spinner-border spinner-border-sm"></span>
+                                )}
+                                <span>Submit</span>
+                            </button>
+                            </Form>
+                        </Formik>
+                    </div> : <div>Loading...</div>}
+            </div>
+        );
     }
 }
