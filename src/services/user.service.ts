@@ -34,8 +34,16 @@ class UserService {
         return axios.post(API_URL + 'supervisor/info', formData, {headers: authHeader()});
     }
 
+    postSupervisorAssignmentInfo(formData: FormData) {
+        return axios.post(API_URL + 'supervisor/assignment_info', formData, {headers: authHeader()});
+    }
+
     postSecondaryExaminerInfo(formData: FormData) {
         return axios.post(API_URL + 'secondary_examiner/info', formData, {headers: authHeader()});
+    }
+
+    postFinalGrades(formData: FormData) {
+        return axios.post(API_URL + 'supervisor/final_grades', formData, {headers: authHeader()});
     }
 
     updateStudentProjectInfo(formValue: {title: string, description: string}) {

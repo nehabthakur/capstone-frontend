@@ -6,6 +6,8 @@ export default interface IStudent {
     email?: string | null,
     name?: string,
     supervisor?: IUser | null,
-    secondExaminer?: IUser | null,
-    project?: IProject | null
+    second_examiner?: IUser | null,
+    project?: IProject | null,
+    final_grade?: string | null,
+    feedback?: string | null,
 }

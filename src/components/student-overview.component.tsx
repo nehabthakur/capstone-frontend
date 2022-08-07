@@ -69,11 +69,19 @@ export default class StudentOverview extends Component<Props, State> {
                 </p>
                 <p>
                     <strong>Second Examiner Name:</strong>{" "}
-                    {this.state.studentInfo && this.state.studentInfo.secondExaminer?.name}
+                    {this.state.studentInfo && this.state.studentInfo.second_examiner?.name}
                 </p>
                 <p>
                     <strong>Second Examiner Email:</strong>{" "}
-                    {this.state.studentInfo && this.state.studentInfo.secondExaminer?.email}
+                    {this.state.studentInfo && this.state.studentInfo.second_examiner?.email}
+                </p>
+                <p>
+                    <strong>Final Grade:</strong>{" "}
+                    {this.state.studentInfo && this.state.studentInfo.final_grade}
+                </p>
+                <p>
+                    <strong>Final Grade feedback:</strong>
+                    {this.state.studentInfo && this.state.studentInfo.feedback}
                 </p>
             </div> : null}
         </div>);

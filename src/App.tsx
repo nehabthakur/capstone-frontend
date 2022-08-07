@@ -96,13 +96,13 @@ class App extends Component<Props, State> {
               </li>
             )}
 
-            {showSupervisorBoard && (
-              <li className="nav-item">
-                <Link to={"/supervisor/assessments"} className="nav-link">
-                  Assessments
-                </Link>
-              </li>
-            )}
+            {/*{showSupervisorBoard && (*/}
+            {/*  <li className="nav-item">*/}
+            {/*    <Link to={"/supervisor/assessments"} className="nav-link">*/}
+            {/*      Assessments*/}
+            {/*    </Link>*/}
+            {/*  </li>*/}
+            {/*)}*/}
 
             {showProjectCoordinatorBoard && (
               <li className="nav-item">

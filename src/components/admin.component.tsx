@@ -11,7 +11,9 @@ type State = {
     currentUser: IUser & { token: string },
     selectedStudentFile: File | null, isStudentFilePicked: boolean,
     selectedSupervisorFile: File | null, isSupervisorFilePicked: boolean,
-    selectedSecondaryExaminerFile: File | null, isSecondaryExaminerFilePicked: boolean
+    selectedSupervisorAssignmentFile: File | null, isSupervisorAssignmentFilePicked: boolean,
+    selectedSecondaryExaminerFile: File | null, isSecondaryExaminerFilePicked: boolean,
+    selectedFinalGradesFile: File | null, isFinalGradesFilePicked: boolean,
 }
 
 export default class Admin extends Component<Props, State> {
@@ -22,7 +24,9 @@ export default class Admin extends Component<Props, State> {
             redirect: null, userReady: false, currentUser: {token: ""},
             selectedStudentFile: null, isStudentFilePicked: false,
             selectedSupervisorFile: null, isSupervisorFilePicked: false,
-            selectedSecondaryExaminerFile: null, isSecondaryExaminerFilePicked: false
+            selectedSupervisorAssignmentFile: null, isSupervisorAssignmentFilePicked: false,
+            selectedSecondaryExaminerFile: null, isSecondaryExaminerFilePicked: false,
+            selectedFinalGradesFile: null, isFinalGradesFilePicked: false,
         };
     }
 
@@ -87,6 +91,33 @@ export default class Admin extends Component<Props, State> {
             );
     };
 
+    supervisorAssignmentChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        this.setState({selectedSupervisorAssignmentFile: file ? file : null, isSupervisorAssignmentFilePicked: true});
+    }
+
+    handleSupervisorAssignmentSubmission = () => {
+        if (!this.state.selectedSupervisorAssignmentFile) {
+            alert("Please select a file before clicking submit");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", this.state.selectedSupervisorAssignmentFile);
+        UserService.postSupervisorAssignmentInfo(formData)
+            .then(r => {
+                    if (r.status === 200) {
+                        alert("Successfully uploaded supervisor assignment info");
+                    } else {
+                        alert("Error uploading supervisor assignment info");
+                    }
+                }
+            ).catch(_ => {
+                    alert("Error uploading supervisor assignment info");
+                }
+            );
+    }
+
     secondaryExaminerChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         this.setState({selectedSecondaryExaminerFile: file ? file : null, isSecondaryExaminerFilePicked: true});
@@ -110,6 +141,33 @@ export default class Admin extends Component<Props, State> {
                 }
             ).catch(_ => {
                     alert("Error uploading secondary examiner info");
+                }
+            );
+    }
+
+    finalGradesChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        this.setState({selectedFinalGradesFile: file ? file : null, isFinalGradesFilePicked: true});
+    }
+
+    handleFinalGradesSubmission = () => {
+        if (!this.state.selectedFinalGradesFile) {
+            alert("Please select a file before clicking submit");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", this.state.selectedFinalGradesFile);
+        UserService.postFinalGrades(formData)
+            .then(r => {
+                    if (r.status === 200) {
+                        alert("Successfully uploaded final grades info");
+                    } else {
+                        alert("Error uploading final grades info");
+                    }
+                }
+            ).catch(_ => {
+                    alert("Error uploading final grades info");
                 }
             );
     }
@@ -141,11 +199,25 @@ export default class Admin extends Component<Props, State> {
                     <button onClick={this.handleSupervisorSubmission}>Submit</button>
                 </div>
                 <br/>
+                <strong>Assign Supervisors:</strong>
+                <br/>
+                <input type="file" name="file" onChange={this.supervisorAssignmentChangeHandler} />
+                <div>
+                    <button onClick={this.handleSupervisorAssignmentSubmission}>Submit</button>
+                </div>
+                <br/>
                 <strong>Upload secondary examiner info:</strong>
                 <br/>
                 <input type="file" name="file" onChange={this.secondaryExaminerChangeHandler} />
                 <div>
                     <button onClick={this.handleSecondaryExaminerSubmission}>Submit</button>
+                </div>
+                <br/>
+                <strong>Upload final grades:</strong>
+                <br/>
+                <input type="file" name="file" onChange={this.finalGradesChangeHandler} />
+                <div>
+                    <button onClick={this.handleFinalGradesSubmission}>Submit</button>
                 </div>
                 <br/>
             </div>
