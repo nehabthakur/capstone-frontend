@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capstone-frontend-deployment
+  namespace: capstone-frontend
+  labels:
+    app: capstone-frontend-app
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: capstone-frontend-app
+  template:
+    metadata:
+      labels:
+        app: capstone-frontend-app
+    spec:
+      containers:
+        - name: capstone-frontend-service
+          image: <IMAGE>
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: "2"
+              memory: "512Mi"
+            requests:
+              cpu: "2"
+              memory: "512Mi"
+          command: [ "serve", "-s", "build"]
+          env:
+            - name: MONGO_CREDS
+              value: '<MONGO_CREDS>'
