@@ -56,7 +56,7 @@ export default class StudentOverview extends Component<Props, State> {
                     {currentUser.name}
                 </p>
                 <p>
-                    <strong>Student id:</strong>
+                    <strong>Student id:</strong> {" "}
                     {this.state.studentInfo && this.state.studentInfo.id}
                 </p>
                 <p>

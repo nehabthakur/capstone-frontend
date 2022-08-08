@@ -173,8 +173,8 @@ export default class SupervisorSupervisees extends Component<Props, State> {
                     {allPendingProposals}
                     </tbody>
                 </table>
-            </div> : null}
-            {this.state.supervisorInfo ? <div>
+            </div> : <div><h2>No pending project proposals</h2></div>}
+            {this.state.current_students && this.state.current_students.length > 0 ? <div>
                 <h2>Current Supervisees</h2>
                 <table>
                     <thead>
@@ -187,7 +187,7 @@ export default class SupervisorSupervisees extends Component<Props, State> {
                     {allCurrentStudents}
                     </tbody>
                 </table>
-            </div> : null}
+            </div> : <div><h2>No current supervisees</h2></div>}
         </div>);
     }
 }
