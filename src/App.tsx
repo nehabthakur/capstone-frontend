@@ -24,6 +24,7 @@ type Props = {};
 type State = {
   showStudentBoard: boolean,
   showSupervisorBoard: boolean,
+  showExaminerBoard: boolean,
   showProjectCoordinatorBoard: boolean,
   currentUser: IUser | undefined
 }
@@ -36,6 +37,7 @@ class App extends Component<Props, State> {
     this.state = {
       showStudentBoard: false,
       showSupervisorBoard: false,
+      showExaminerBoard: false,
       showProjectCoordinatorBoard: false,
       currentUser: undefined,
     };
@@ -49,6 +51,7 @@ class App extends Component<Props, State> {
         currentUser: user,
         showStudentBoard: user.roles.includes("student"),
         showSupervisorBoard: user.roles.includes("supervisor"),
+        showExaminerBoard: user.roles.includes("examiner"),
         showProjectCoordinatorBoard: user.roles.includes("project_coordinator"),
       });
     }
@@ -65,13 +68,14 @@ class App extends Component<Props, State> {
     this.setState({
       showStudentBoard: false,
       showSupervisorBoard: false,
+      showExaminerBoard: false,
       showProjectCoordinatorBoard: false,
       currentUser: undefined,
     });
   }
 
   render() {
-    const { currentUser, showStudentBoard, showSupervisorBoard, showProjectCoordinatorBoard } = this.state;
+    const { currentUser, showStudentBoard, showSupervisorBoard, showExaminerBoard, showProjectCoordinatorBoard } = this.state;
 
     return (
       <div>
@@ -95,14 +99,6 @@ class App extends Component<Props, State> {
                 </Link>
               </li>
             )}
-
-            {/*{showSupervisorBoard && (*/}
-            {/*  <li className="nav-item">*/}
-            {/*    <Link to={"/supervisor/assessments"} className="nav-link">*/}
-            {/*      Assessments*/}
-            {/*    </Link>*/}
-            {/*  </li>*/}
-            {/*)}*/}
 
             {showProjectCoordinatorBoard && (
               <li className="nav-item">

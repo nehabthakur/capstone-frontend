@@ -38,6 +38,10 @@ class UserService {
         return axios.post(API_URL + 'supervisor/assignment_info', formData, {headers: authHeader()});
     }
 
+    postExaminerInfo(formData: FormData) {
+        return axios.post(API_URL + 'examiner/info', formData, {headers: authHeader()});
+    }
+
     postSecondaryExaminerInfo(formData: FormData) {
         return axios.post(API_URL + 'secondary_examiner/info', formData, {headers: authHeader()});
     }

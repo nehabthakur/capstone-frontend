@@ -97,7 +97,7 @@ export default class SupervisorOverview extends Component<Props, State> {
         }
 
         return (<div className="container">
-            {(this.state.userReady) ? <div>
+            {(this.state.userReady && this.state.supervisorInfo) ? <div>
                 <Formik enableReinitialize={true} initialValues={initialValues} onSubmit={this.updateInfo} validationSchema={this.validationSchema}>
                     <Form>
                         <div className="form-group">
@@ -153,7 +153,7 @@ export default class SupervisorOverview extends Component<Props, State> {
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </Form>
                 </Formik>
-            </div> : null}
+            </div> : <div>Loading...</div>}
         </div>);
     }
 }

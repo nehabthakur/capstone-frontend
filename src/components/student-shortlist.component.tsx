@@ -95,7 +95,7 @@ export default class StudentShortlist extends Component<Props, State> {
 
         return (
             <div className="container">
-                {(this.state.userReady && this.state.supervisors) ?
+                {(this.state.userReady && this.state.supervisors && this.state.supervisors.length > 0) ?
                     <div>
                         <h3>Please select 5 unique supervisors</h3>
                         {/*//@ts-ignore*/}

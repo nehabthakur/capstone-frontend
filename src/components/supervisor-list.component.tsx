@@ -116,8 +116,8 @@ export default class SupervisorsList extends Component<Props, State> {
             allSupervisors = allSupervisors.concat(itemRows);
         });
 
-        return (
-            <div>
+        return (<div className="container">
+            {(allSupervisors.length > 0) ? <div>
                 <h1>Supervisors</h1>
                 <table>
                     <thead>
@@ -132,7 +132,7 @@ export default class SupervisorsList extends Component<Props, State> {
                         {allSupervisors}
                     </tbody>
                 </table>
-            </div>
-        );
+            </div> : <div>Loading...</div>}
+            </div>);
     }
 }

@@ -27,10 +27,8 @@ export default class StudentOverview extends Component<Props, State> {
             this.setState({redirect: "/login"});
         } else {
             UserService.getStudentOverview()
-                .then(r => this.setState({studentInfo: r.data}));
+                .then(r => this.setState({studentInfo: r.data, currentUser: currentUser, userReady: true}));
         }
-
-        this.setState({currentUser: currentUser, userReady: true})
     }
 
     render() {

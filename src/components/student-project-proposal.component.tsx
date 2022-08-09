@@ -11,7 +11,7 @@ import ISupervisor from "../types/supervisor.type";
 type Props = {};
 
 type State = {
-    redirect: string | null, userReady: boolean, currentUser: IUser & { token: string }, studentInfo: IStudent | null, shortlisted_supervisors: Array<ISupervisor>, proposal_forms: Map<string, Map<string, string>>, selected_supervisor: string | null, proposal_form: {title: string, aim: string, rationale: string}
+    redirect: string | null, userReady: boolean, currentUser: IUser & { token: string }, studentInfo: IStudent | null, shortlisted_supervisors: Array<ISupervisor>, proposal_forms: Map<string, Map<string, string>>, selected_supervisor: string | null, proposal_form: { title: string, aim: string, rationale: string }
 };
 
 export default class StudentProjectProposal extends Component<Props, State> {
@@ -103,72 +103,74 @@ export default class StudentProjectProposal extends Component<Props, State> {
             return <div>Unauthorized</div>
         }
 
-        return (<div>
-            <strong>Pick a supervisor to send the project proposal form</strong>
-            <br/>
-            <select
-                value={this.state.selected_supervisor ? this.state.selected_supervisor : "Select a supervisor"}
-                onChange={(eventKey) => {
-                    if (eventKey) {
-                        this.setState({selected_supervisor: eventKey.currentTarget.value});
-                        const proposal_form = this.state.proposal_forms.get(eventKey.currentTarget.value);
-                        if (proposal_form !== undefined) {
-                            this.setState( {
-                                proposal_form: {
-                                    // @ts-ignore
-                                    title: proposal_form.has("title") ? proposal_form.get("title") : "", // @ts-ignore
-                                    aim: proposal_form.has("aim") ? proposal_form.get("aim") : "", // @ts-ignore
-                                    rationale: proposal_form.has("rationale") ? proposal_form.get("rationale") : ""
-                                }
-                            });
+        return (<div className="container">
+            {(this.state.shortlisted_supervisors.length > 0 && this.state.proposal_forms.size > 0) ? <div>
+                <strong>Pick a supervisor to send the project proposal form</strong>
+                <br/>
+                <select
+                    value={this.state.selected_supervisor ? this.state.selected_supervisor : "Select a supervisor"}
+                    onChange={(eventKey) => {
+                        if (eventKey) {
+                            this.setState({selected_supervisor: eventKey.currentTarget.value});
+                            const proposal_form = this.state.proposal_forms.get(eventKey.currentTarget.value);
+                            if (proposal_form !== undefined) {
+                                this.setState({
+                                    proposal_form: {
+                                        // @ts-ignore
+                                        title: proposal_form.has("title") ? proposal_form.get("title") : "", // @ts-ignore
+                                        aim: proposal_form.has("aim") ? proposal_form.get("aim") : "", // @ts-ignore
+                                        rationale: proposal_form.has("rationale") ? proposal_form.get("rationale") : ""
+                                    }
+                                });
+                            }
                         }
-                    }
-                }}
-            >
-                <option value="noEmail">Select a supervisor</option>
-                {this.state.shortlisted_supervisors.map(supervisor => {
-                    // @ts-ignore
-                    return <option value={supervisor.email}>{supervisor.name}</option>
-                })}
-            </select>
-            {this.state.selected_supervisor && this.state.selected_supervisor !== "noEmail" && <Formik
-                enableReinitialize={true}
-                initialValues={this.state.proposal_form}
-                validationSchema={this.validationSchema()}
-                onSubmit={this.updateInfo}
-            >
-                <Form>
-                    <div className="form-group">
-                        <label htmlFor="title">Title</label>
-                        <Field name="title" type="text" className="form-control" />
-                        <ErrorMessage name="title" component="div" className="text-danger"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="aim">Aim</label>
-                        <Field name="aim" as="textarea" className="form-control" />
-                        <ErrorMessage name="aim" component="div" className="text-danger"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="rationale">Rationale</label>
-                        <Field name="rationale" as="textarea" className="form-control" />
-                        <ErrorMessage name="rationale" component="div" className="text-danger"/>
-                    </div>
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-primary"
-                                disabled={!this.state.selected_supervisor || this.state.selected_supervisor === "noEmail" || (this.state.proposal_form.title !== "" && this.state.proposal_form.aim !== "" && this.state.proposal_form.rationale !== "")}>
-                            Submit
-                        </button>
-                    </div>
-                </Form>
-            </Formik>}
-            {this.state.selected_supervisor && this.state.selected_supervisor !== "noEmail" && <div>
-                <strong>Status:</strong>{" "}
-                {this.state.proposal_forms.get(this.state.selected_supervisor)?.has("status") ? this.state.proposal_forms.get(this.state.selected_supervisor)?.get("status")?.toUpperCase() : "NOT SUBMITTED"}
-                <br/>
-                <strong>Comment:</strong>{" "}
-                <br/>
-                {this.state.proposal_forms.get(this.state.selected_supervisor)?.has("comment") ? this.state.proposal_forms.get(this.state.selected_supervisor)?.get("comment") : "No comment yet"}
-            </div>}
+                    }}
+                >
+                    <option value="noEmail">Select a supervisor</option>
+                    {this.state.shortlisted_supervisors.map(supervisor => {
+                        // @ts-ignore
+                        return <option value={supervisor.email}>{supervisor.name}</option>
+                    })}
+                </select>
+                {this.state.selected_supervisor && this.state.selected_supervisor !== "noEmail" && <Formik
+                    enableReinitialize={true}
+                    initialValues={this.state.proposal_form}
+                    validationSchema={this.validationSchema()}
+                    onSubmit={this.updateInfo}
+                >
+                    <Form>
+                        <div className="form-group">
+                            <label htmlFor="title">Title</label>
+                            <Field name="title" type="text" className="form-control"/>
+                            <ErrorMessage name="title" component="div" className="text-danger"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="aim">Aim</label>
+                            <Field name="aim" as="textarea" className="form-control"/>
+                            <ErrorMessage name="aim" component="div" className="text-danger"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="rationale">Rationale</label>
+                            <Field name="rationale" as="textarea" className="form-control"/>
+                            <ErrorMessage name="rationale" component="div" className="text-danger"/>
+                        </div>
+                        <div className="form-group">
+                            <button type="submit" className="btn btn-primary"
+                                    disabled={!this.state.selected_supervisor || this.state.selected_supervisor === "noEmail" || (this.state.proposal_form.title !== "" && this.state.proposal_form.aim !== "" && this.state.proposal_form.rationale !== "")}>
+                                Submit
+                            </button>
+                        </div>
+                    </Form>
+                </Formik>}
+                {this.state.selected_supervisor && this.state.selected_supervisor !== "noEmail" && <div>
+                    <strong>Status:</strong>{" "}
+                    {this.state.proposal_forms.get(this.state.selected_supervisor)?.has("status") ? this.state.proposal_forms.get(this.state.selected_supervisor)?.get("status")?.toUpperCase() : "NOT SUBMITTED"}
+                    <br/>
+                    <strong>Comment:</strong>{" "}
+                    <br/>
+                    {this.state.proposal_forms.get(this.state.selected_supervisor)?.has("comment") ? this.state.proposal_forms.get(this.state.selected_supervisor)?.get("comment") : "No comment yet"}
+                </div>}
+            </div> : <div>Loading...</div>}
         </div>);
     }
 }

@@ -89,7 +89,7 @@ export default class StudentProject extends Component<Props, State> {
         }
 
         return (<div className="container">
-            {(this.state.userReady) ? <div>
+            {(this.state.studentInfo && this.state.studentInfo.project) ? <div>
                 <Formik enableReinitialize={true} initialValues={initialValues} validationSchema={this.validationSchema()} onSubmit={this.updateInfo}>
                     <Form>
                         <div className="form-group">
@@ -113,8 +113,7 @@ export default class StudentProject extends Component<Props, State> {
                         </div>
                     </Form>
                 </Formik>
-            {/*    // TODO GANTT chart*/}
-            </div> : null}
+            </div> : <div>Loading...</div>}
         </div>);
     }
 }
