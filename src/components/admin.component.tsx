@@ -64,6 +64,7 @@ export default class Admin extends Component<Props, State> {
                     alert("Error uploading student info");
                 }
             );
+        window.location.reload();
     };
 
     supervisorChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +92,7 @@ export default class Admin extends Component<Props, State> {
                     alert("Error uploading supervisor info");
                 }
             );
+        window.location.reload();
     };
 
     supervisorAssignmentChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,6 +120,7 @@ export default class Admin extends Component<Props, State> {
                     alert("Error uploading supervisor assignment info");
                 }
             );
+        window.location.reload();
     }
 
     examinerChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,6 +148,7 @@ export default class Admin extends Component<Props, State> {
                     alert("Error uploading examiner info");
                 }
             );
+        window.location.reload();
     }
 
     secondaryExaminerChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -172,6 +176,7 @@ export default class Admin extends Component<Props, State> {
                     alert("Error uploading secondary examiner info");
                 }
             );
+        window.location.reload();
     }
 
     finalGradesChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -199,6 +204,7 @@ export default class Admin extends Component<Props, State> {
                     alert("Error uploading final grades info");
                 }
             );
+        window.location.reload();
     }
 
     render() {
