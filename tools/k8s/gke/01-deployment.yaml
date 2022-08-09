@@ -18,7 +18,7 @@ spec:
     spec:
       nodeSelector:
         cloud.google.com/gke-spot: "true"
-        terminationGracePeriodSeconds: 25
+        terminationGracePeriodSeconds: "25"
       containers:
         - name: capstone-frontend-service
           image: <IMAGE>
