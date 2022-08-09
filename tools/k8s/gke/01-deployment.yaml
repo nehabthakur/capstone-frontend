@@ -18,7 +18,6 @@ spec:
     spec:
       nodeSelector:
         cloud.google.com/gke-spot: "true"
-        terminationGracePeriodSeconds: "25"
       containers:
         - name: capstone-frontend-service
           image: <IMAGE>
@@ -33,6 +32,3 @@ spec:
               cpu: "2"
               memory: "512Mi"
           command: [ "serve", "-s", "build"]
-          env:
-            - name: MONGO_CREDS
-              value: '<MONGO_CREDS>'
