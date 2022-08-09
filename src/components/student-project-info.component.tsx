@@ -89,7 +89,7 @@ export default class StudentProject extends Component<Props, State> {
         }
 
         return (<div className="container">
-            {(this.state.studentInfo && this.state.studentInfo.project) ? <div>
+            {(this.state.studentInfo) ? <div>
                 <Formik enableReinitialize={true} initialValues={initialValues} validationSchema={this.validationSchema()} onSubmit={this.updateInfo}>
                     <Form>
                         <div className="form-group">

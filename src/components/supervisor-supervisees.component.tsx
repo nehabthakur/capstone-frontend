@@ -93,9 +93,9 @@ export default class SupervisorSupervisees extends Component<Props, State> {
                     <Formik onSubmit={(values: {status: string, comment: string}, {setSubmitting}) => {
                         UserService.updateSupervisorPendingProposal(proposal_form.student_info.email ? proposal_form.student_info.email : "", values.status, values.comment)
                             .then(r => {
-                                this.setState({pending_proposals: r.data});
+                                const _ = window.confirm("Successfully submitted response!!!") ? window.location.reload() : null;
                             }).catch(e => {
-                            console.log(e);
+                                const _ = window.confirm("Error submitting response!!!" + e) ? window.location.reload() : null;
                             }).finally(() => {
                                 setSubmitting(false);
                             }

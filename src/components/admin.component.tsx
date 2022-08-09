@@ -46,7 +46,7 @@ export default class Admin extends Component<Props, State> {
 
     handleStudentSubmission = () => {
         if (!this.state.selectedStudentFile) {
-            alert("Please select a file before clicking submit");
+            const status = window.confirm("Please select a file before clicking submit");
             return;
         }
 
@@ -55,16 +55,15 @@ export default class Admin extends Component<Props, State> {
         UserService.postStudentInfo(formData)
             .then(r => {
                     if (r.status === 200) {
-                        alert("Successfully uploaded student info");
+                        const status = window.confirm("Successfully uploaded student info") ? window.location.reload() : null;
                     } else {
-                        alert("Student info updation failed with status code " + r.status);
+                        const status = window.confirm("Student info updation failed with status code " + r.status) ? window.location.reload() : null;
                     }
                 }
             ).catch(_ => {
-                    alert("Error uploading student info");
+                    const status = window.confirm("Error uploading student info") ? window.location.reload() : null;
                 }
             );
-        window.location.reload();
     };
 
     supervisorChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +73,7 @@ export default class Admin extends Component<Props, State> {
 
     handleSupervisorSubmission = () => {
         if (!this.state.selectedSupervisorFile) {
-            alert("Please select a file before clicking submit");
+            const status = window.confirm("Please select a file before clicking submit");
             return;
         }
 
@@ -83,16 +82,15 @@ export default class Admin extends Component<Props, State> {
         UserService.postSupervisorInfo(formData)
             .then(r => {
                     if (r.status === 200) {
-                        alert("Successfully uploaded supervisor info");
+                        const status = window.confirm("Successfully uploaded supervisor info") ? window.location.reload() : null;
                     } else {
-                        alert("Error uploading supervisor info");
+                        const status = window.confirm("Error uploading supervisor info with status code " + r.status) ? window.location.reload() : null;
                     }
                 }
             ).catch(_ => {
-                    alert("Error uploading supervisor info");
+                    const status = window.confirm("Error uploading supervisor info") ? window.location.reload() : null;
                 }
             );
-        window.location.reload();
     };
 
     supervisorAssignmentChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +100,7 @@ export default class Admin extends Component<Props, State> {
 
     handleSupervisorAssignmentSubmission = () => {
         if (!this.state.selectedSupervisorAssignmentFile) {
-            alert("Please select a file before clicking submit");
+            const status = window.confirm("Please select a file before clicking submit");
             return;
         }
 
@@ -111,16 +109,15 @@ export default class Admin extends Component<Props, State> {
         UserService.postSupervisorAssignmentInfo(formData)
             .then(r => {
                     if (r.status === 200) {
-                        alert("Successfully uploaded supervisor assignment info");
+                        const status = window.confirm("Successfully uploaded supervisor assignment info") ? window.location.reload() : null;
                     } else {
-                        alert("Error uploading supervisor assignment info");
+                        const status = window.confirm("Error uploading supervisor assignment info") ? window.location.reload() : null;
                     }
                 }
             ).catch(_ => {
-                    alert("Error uploading supervisor assignment info");
+                    const status = window.confirm("Error uploading supervisor assignment info") ? window.location.reload() : null;
                 }
             );
-        window.location.reload();
     }
 
     examinerChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,7 +127,7 @@ export default class Admin extends Component<Props, State> {
 
     handleExaminerSubmission = () => {
         if (!this.state.selectedExaminerFile) {
-            alert("Please select a file before clicking submit");
+            const status = window.confirm("Please select a file before clicking submit");
             return;
         }
 
@@ -139,16 +136,15 @@ export default class Admin extends Component<Props, State> {
         UserService.postExaminerInfo(formData)
             .then(r => {
                     if (r.status === 200) {
-                        alert("Successfully uploaded examiner info");
+                        const status = window.confirm("Successfully uploaded examiner info") ? window.location.reload() : null;
                     } else {
-                        alert("Error uploading examiner info");
+                        const status = window.confirm("Error uploading examiner info with status code " + r.status) ? window.location.reload() : null;
                     }
                 }
             ).catch(_ => {
-                    alert("Error uploading examiner info");
+                    const status = window.confirm("Error uploading examiner info") ? window.location.reload() : null;
                 }
             );
-        window.location.reload();
     }
 
     secondaryExaminerChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,7 +154,7 @@ export default class Admin extends Component<Props, State> {
 
     handleSecondaryExaminerSubmission = () => {
         if (!this.state.selectedSecondaryExaminerFile) {
-            alert("Please select a file before clicking submit");
+            const status = window.confirm("Please select a file before clicking submit");
             return;
         }
 
@@ -167,16 +163,15 @@ export default class Admin extends Component<Props, State> {
         UserService.postSecondaryExaminerInfo(formData)
             .then(r => {
                     if (r.status === 200) {
-                        alert("Successfully uploaded secondary examiner info");
+                        const status = window.confirm("Successfully uploaded secondary examiner info") ? window.location.reload() : null;
                     } else {
-                        alert("Error uploading secondary examiner info");
+                        const status = window.confirm("Error uploading secondary examiner info with status code " + r.status) ? window.location.reload() : null;
                     }
                 }
             ).catch(_ => {
-                    alert("Error uploading secondary examiner info");
+                    const status = window.confirm("Error uploading secondary examiner info") ? window.location.reload() : null;
                 }
             );
-        window.location.reload();
     }
 
     finalGradesChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,7 +181,7 @@ export default class Admin extends Component<Props, State> {
 
     handleFinalGradesSubmission = () => {
         if (!this.state.selectedFinalGradesFile) {
-            alert("Please select a file before clicking submit");
+            const status = window.confirm("Please select a file before clicking submit");
             return;
         }
 
@@ -195,16 +190,15 @@ export default class Admin extends Component<Props, State> {
         UserService.postFinalGrades(formData)
             .then(r => {
                     if (r.status === 200) {
-                        alert("Successfully uploaded final grades info");
+                        const status = window.confirm("Successfully uploaded final grades info") ? window.location.reload() : null;
                     } else {
-                        alert("Error uploading final grades info");
+                        const status = window.confirm("Error uploading final grades info with status code " + r.status) ? window.location.reload() : null;
                     }
                 }
             ).catch(_ => {
-                    alert("Error uploading final grades info");
+                    const status = window.confirm("Error uploading final grades info") ? window.location.reload() : null;
                 }
             );
-        window.location.reload();
     }
 
     render() {
