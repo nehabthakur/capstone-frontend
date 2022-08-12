@@ -18,6 +18,7 @@ import SupervisorOverview from "./components/supervisor-overview.component";
 import Admin from "./components/admin.component";
 import StudentProjectProposal from "./components/student-project-proposal.component";
 import SupervisorSupervisees from "./components/supervisor-supervisees.component";
+import UserList from "./components/user-list.component";
 
 type Props = {};
 
@@ -108,6 +109,14 @@ class App extends Component<Props, State> {
               </li>
             )}
 
+            {showProjectCoordinatorBoard && (
+              <li className="nav-item">
+                <Link to={"/project_coordinator/user_list"} className="nav-link">
+                    User List
+                </Link>
+                </li>
+            )}
+
             {showStudentBoard && (
               <li className="nav-item">
                 <Link to={"/student/overview"} className="nav-link">
@@ -179,6 +188,7 @@ class App extends Component<Props, State> {
             <Route exact path="/student/shortlist" component={StudentShortlist} />
             <Route exact path="/supervisor/overview" component={SupervisorOverview} />
             <Route exact path="/project_coordinator" component={Admin} />
+            <Route exact path="/project_coordinator/user_list" component={UserList} />
             <Route exact path="/student/project_proposal" component={StudentProjectProposal} />
             <Route exact path="/supervisor/supervisees" component={SupervisorSupervisees} />
           </Switch>

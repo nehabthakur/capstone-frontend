@@ -22,6 +22,10 @@ class UserService {
         return axios.get(API_URL + 'supervisor/all', {headers: authHeader()});
     }
 
+    getStudents() {
+        return axios.get(API_URL + 'student/all', {headers: authHeader()});
+    }
+
     getSupervisorOverview() {
         return axios.get(API_URL + 'supervisor/overview' , {headers: authHeader()});
     }
