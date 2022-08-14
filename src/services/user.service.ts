@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'http://34.140.242.112:5000/';
+const API_URL = 'http://127.0.0.1:5000/';
 
 class UserService {
     getStudentOverview() {
